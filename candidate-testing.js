@@ -1,16 +1,14 @@
 const input = require('readline-sync');
 
-// TODO 2: modify your quiz app to ask 5 questions //
-
-// TODO 1.1a: Define candidateName // 
+// TODO 1.1a: Define candidateName below this line.
 let candidateName = "";
-// TODO 1.2a: Define question, correctAnswer, and candidateAnswer //
+
+// TODO 1.2a: Define question, correctAnswer, and candidateAnswer below this line.
 let question = "Who was the first American woman in space? ";
 let correctAnswer = "Sally Ride";
 let candidateAnswer = "";
 
-
-//TODO: Variables for Part 2
+// Multiple questions and answers
 let questions = [
   "Who was the first American woman in space? ",
   "True or false: 5 kilometer == 5000 meters? ",
@@ -18,6 +16,7 @@ let questions = [
   "Given the array [8, 'Orbit', 'Trajectory', 45], what entry is at index 2? ",
   "What is the minimum crew size for the ISS? "
 ];
+
 let correctAnswers = [
   "Sally Ride",
   "true",
@@ -25,54 +24,56 @@ let correctAnswers = [
   "Trajectory",
   "3"
 ];
+
 let candidateAnswers = [];
 
-
+// TODO 1.1b: Ask for candidate's name
 function askForName() {
-  // TODO 1.1b: Ask for candidate's name //
-candidateName = input.question("What is your name? ");
-return candidateName;
+  candidateName = input.question("Enter your name: ");
+  // TODO 1.1c: Greet the user
+  console.log(`Hello, ${candidateName}! `);
 }
 
+// TODO 1.2b: Ask the candidate the question and store their answer
 function askQuestion() {
-  // TODO 1.2b: Ask candidate the question and assign the response as candidateAnswer //
-for (let i=0; i < question.length; i++) {
-  candidateAnswer[i] = input.question(question[i]);
-}
-
-
-
-}
-
-function gradeQuiz(candidateAnswers) {
-
-  // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
-  let correctNumber = 0;
-
-for (let i=0; i < question.length; i++) 
-  console.log(`question ${i+1}: ${question[i]}`);
-  console.log(`Your Answer: ${candidateAnswer[i]}`);
-  console.log(`Correct Answer: ${correctAnswer[i]}`);
-
-  if (candidateAnswers[i].toLowerCase() === correctAnswers[i].toLowerCase()){
-    numCorrect++;
+  for (let i = 0; i < questions.length; i++) {
+    candidateAnswers[i] = input.question(questions[i]);
   }
 }
 
+// TODO 1.2c: Check the candidate's answer
+function gradeQuiz(candidateAnswers) {
+  let numberOfCorrectAnswers = 0;
 
-  let grade = candidateAnswer + correctAnswer //TODO 3.2 use this variable to calculate the candidates score.
-console.log(grade)
+  for (let i = 0; i < questions.length; i++) {
+    if (candidateAnswers[i].trim().toLowerCase() === correctAnswers[i].toLowerCase()) {
+      numberOfCorrectAnswers++;
+    }
+  }
+
+  let grade = (numberOfCorrectAnswers / questions.length) * 100;
+
+  console.log(`\nCandidate Name: ${candidateName}`);
+  for (let i = 0; i < questions.length; i++) {
+    console.log(`${i + 1}) ${questions[i]}`);
+    console.log(`Your Answer: ${candidateAnswers[i]}`);
+    console.log(`Correct Answer: ${correctAnswers[i]}\n`);
+  }
+
+  console.log(`Overall Grade: ${grade}%`);
+  console.log(grade >= 80 ? "Status: PASSED" : "Status: FAILED");
 
   return grade;
+}
 
 
 function runProgram() {
-  candidateName =  askForName();
-  // TODO 1.1c: Greet candidate using their name //
-   console.log(`Hello! ${candidateName}`);
+  askForName();
   askQuestion();
-  gradeQuiz(this.candidateAnswers);
+  gradeQuiz(candidateAnswers);
 }
+
+runProgram();
 
 // ----------- Don't write any code or change any code below this line ---------- //
 module.exports = {
